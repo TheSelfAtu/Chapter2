@@ -1,0 +1,75 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block title %}ゲストページ{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <p>{{message}}</p>
+
+  <p>ようこそ {{request.user.first_name}}　さん</p>
+
+  {% for man in recommended_man %}
+
+  <p>
+    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#addcollapseExample{{man.id}}" aria-expanded="false" aria-controls="collapseExample">
+      [依頼]{{man.who_recommend.first_name}}さんからご紹介　{{man.company}}{{man.name}}さんの追加情報をご入力ください。</a>
+
+    </button>
+  </p>
+
+
+  {{addform.non_field_errors}}
+  <div class="collapse" id="addcollapseExample{{man.id}}">
+    <div class="card card-body">
+
+      <p>
+        現時点での情報{{man.more_information}}
+      </p>
+
+      <form method="POST" action="{% url 'recommend:add_more_information' id=man.id %}"> {% csrf_token %}
+        {% for field in addform %}
+        <p>
+          {{field.errors}}
+          {{field.label_tag}}{{field}}
+
+        </p>
+        {% endfor %}
+        <input type="submit" value="送信" />
+
+      </form>
+
+    </div>
+  </div>
+
+  {% endfor %}
+
+  <p>
+    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      人事部に人を紹介する
+    </button>
+  </p>
+
+  {{form.non_field_errors}}
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+
+      <form method="POST" action="">{% csrf_token %}
+        {% for field in form %}
+        <p>
+          {{field.errors}}
+          {{field.label_tag}}{{field}}
+
+        </p>
+        {% endfor %}
+        <input type="submit" value="送信" />
+
+      </form>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

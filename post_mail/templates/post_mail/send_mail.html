@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}メール送信画面{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <p>
+    <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      メール内容確認
+    </button>
+  </p>
+
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      いつも優秀な人材を紹介してくれてありがとうございます。これからも、我が社に入ってくれそうな人材をぜひともご紹介ください。 List of Excellent Young-man は、みなさんから人事部に紹介してもいいと思った人たちを登録いただくシステムです。もし人事部から連絡してもよい優秀な方がいらっしゃいましたら、ぜひご登録をお願いします。
+    </div>
+  </div>
+
+  <form method="post" action="">{% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+    <fieldset style="border:1px solid ">
+      <h4>　紹介者情報:</h4>
+
+      <p>
+        {{form.as_p}}
+      </p>
+
+      <button type="submit">メール送信</button>
+  </fieldset>
+  <br>
+
+  {% endfor %}
+</form>
+
+
+</div>
+
+
+{% endblock %}

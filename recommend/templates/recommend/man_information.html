@@ -1,0 +1,96 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block title %}情報追加ページ{% endblock %}
+{% block content %}
+
+<div class="container">
+  <h2>{{man.name}}さんの情報</h2>
+  <p>
+    紹介者: {{man.who_recommend.first_name}}
+  </p>
+  <p>
+    勤め先: {{man.company}}
+  </p>
+  <p>
+    転職希望理由: {{man.reason}}
+  </p>
+  <p>
+    人事部へ提供できる情報: {{man.more_information}}
+  </p>
+
+  {% if not request.user.is_staff %}
+  <h3>[依頼]　{{man.who_recommend.division}} {{man.who_recommend.first_name}}さんからご紹介　 </h3>
+  <p>
+    {{man.company}}　{{man.name}}さんの追加情報をご入力ください。
+  </p>
+
+  <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseSecond" aria-expanded="false" aria-controls="collapseExample">
+    追加情報を入力
+  </button>
+
+  <div class="collapse" id="collapseSecond">
+    <div class="card card-body">
+
+      <form method="POST" action="">{% csrf_token %}
+        <p>
+          人事部へ提供できる情報：<br>
+          <textarea name="kanso" rows="4" cols="40"></textarea>
+        </p>
+
+
+
+    </div>
+  </div>
+  {% endif %}
+
+  {% if request.user.is_staff %}
+  <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    追加情報を依頼する
+  </button>
+  </p>
+  {% endif %}
+  {{form.non_field_errors}}
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+
+      <form method="POST" action="">{% csrf_token %}
+        {% for field in form %}
+        <p>
+          {{field.errors}}
+          {{field.label_tag}}{{field}}
+
+        </p>
+        {% endfor %}
+
+        <!-- ボタン -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoNormalModal">
+          メール内容を確認する
+        </button>
+
+        <!-- モーダルダイアログ -->
+        <div class="modal fade" id="demoNormalModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="demoModalTitle">この内容でメールを送信しますか？</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                {{message}}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                <button type="submit" class="btn btn-primary">送信</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
