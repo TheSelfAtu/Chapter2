@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
 {% load static %}
-
+{% load bootstrap4 %}
 {% block title %}ゲストページ{% endblock %}
 
 {% block content %}
@@ -25,7 +25,7 @@
     <div class="card card-body">
 
       <p>
-        現時点での情報{{man.more_information}}
+        現時点での情報:　{{man.more_information}}
       </p>
 
       <form method="POST" action="{% url 'recommend:add_more_information' id=man.id %}"> {% csrf_token %}
@@ -56,13 +56,7 @@
     <div class="card card-body">
 
       <form method="POST" action="">{% csrf_token %}
-        {% for field in form %}
-        <p>
-          {{field.errors}}
-          {{field.label_tag}}{{field}}
-
-        </p>
-        {% endfor %}
+        {% bootstrap_form form %}
         <input type="submit" value="送信" />
 
       </form>

@@ -1,29 +1,21 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 {% load static %}
 
 {% block title %}ログインページ{% endblock %}
 
 {% block content %}
 
-
 <div class='container'>
 
   <div class="text-danger">
     {{form.non_field_errors}}
   </div>
+
   <form method="POST">{% csrf_token %}
-    {% for field in form %}
-    <p>
-      <p>
-        {{field.errors}}
-      </p>
-      <p>
-        {{field.label_tag}}
-      </p>
-      {{field}}
-    </p>
-    {% endfor %}
-    <button type='save btn btn-default'>ログイン</button>
+    {% bootstrap_form form %}
+    
+    <button type='submit' >ログイン</button>
   </form>
 </div>
 

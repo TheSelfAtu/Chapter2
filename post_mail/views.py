@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from register.models import User
 from recommend.models import Excellent_Man
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.shortcuts import redirect
 from .forms import UserFormSet
 from django.core.mail import BadHeaderError, send_mail
@@ -19,7 +19,7 @@ def show_mypage(request):
         }
         return render(request, 'post_mail/staff_page.html', context)
 
-    url = reverse_lazy('recommend:information')
+    url = reverse('recommend:information')
     return redirect(url)
 
 @login_required
@@ -27,7 +27,7 @@ def add_guest(request):
     if request.method == 'POST':
         formset = UserFormSet(request.POST)
         for form in formset:
-            if form.is_valid :
+            if form.is_valid() :
                 user = form.save(commit=False)
                 if user.email:
                     password = User.objects.make_random_password()

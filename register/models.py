@@ -40,9 +40,21 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
-    department = models.CharField(_('department'), max_length=30, blank=True)
+    
+    DEPARTMENT_CHOICES = [
+        ("営業", '営業部'),
+        ("経理", '経理部'),
+        ("人事", '人事部'),
+        ("IT", 'IT部'),
+    ]
+    department = models.CharField(
+        max_length=5,
+        choices=DEPARTMENT_CHOICES,
+        default="営業部",
+    )
+    
     division = models.CharField(_('division'), max_length=30, blank=True)
-
+    
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -82,3 +94,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+
+
+class Department(models.Model):
+    """部署"""
+    department_name = models.CharField(_('last name'), max_length=10, blank=True)
+    division_name = models.CharField(_('department'), max_length=30, blank=True)

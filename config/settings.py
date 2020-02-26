@@ -25,7 +25,7 @@ SECRET_KEY = 'z6d6x0$ang^yngxmhcjxoej@826y+f0j_(-kv2=#4dwxpfag7!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'register.apps.RegisterConfig',
     'post_mail.apps.PostMailConfig',
     'recommend.apps.RecommendConfig',
+    "bootstrap4", #追加
+
+
 
 ]
 

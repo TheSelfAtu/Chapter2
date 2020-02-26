@@ -4,31 +4,25 @@ from register.models import User
 from recommend.models import Excellent_Man
 from django.urls import reverse
 from django.shortcuts import redirect
-from .forms import IntroduceForm, AddInformationForm
+from .forms import ManForm, AddInformationForm
 from django.core.mail import BadHeaderError, send_mail
 from post_mail.forms import UserForm
 # Create your views here.
 
-@ login_required
 def information(request):
     if request.method == 'POST':
-        form = IntroduceForm(request.POST)
+        form = ManForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data.get('name')
-            reason = form.cleaned_data.get('reason')
-            phone_number = form.cleaned_data.get('phone_number')
-            email = form.cleaned_data.get('email')
-            more_information = form.cleaned_data.get('more_information')
-            company = form.cleaned_data.get('company')
-            excellent_man = Excellent_Man(who_recommend=request.user, name=name, company=company, reason=reason, phone_number=phone_number, email=email, more_information=more_information )
-            excellent_man.save()
+            excellent_Man = form.save(commit=False)
+            excellent_Man.who_recommend = request.user
+            excellent_Man.save()
             message = 'ご紹介ありがとうございました'
-            form = IntroduceForm
+            form = ManForm
             return render(request, 'recommend/guest_page.html', {'message':message, 'form':form})
         else:
             return render(request, 'recommend/guest_page.html', {'form':form})
 
-    form = IntroduceForm
+    form = ManForm
     recommended_man = Excellent_Man.objects.all()
     context = {
     'form':form,
@@ -36,6 +30,8 @@ def information(request):
     'recommended_man':recommended_man
     }
     return render(request, 'recommend/guest_page.html', context)
+
+
 
 @login_required
 def add_user(request, id):
@@ -61,7 +57,7 @@ def add_more_information(request, id):
     man = Excellent_Man.objects.get(id=id)
     form = AddInformationForm(request.POST)
     if form.is_valid():
-        man.more_information += form.cleaned_data.get("more_information")
+        man.more_information += ' '+ form.cleaned_data.get("more_information")
         man.save()
         return redirect('/')
 

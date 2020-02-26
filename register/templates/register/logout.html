@@ -3,11 +3,8 @@
 
 {% block content %}
 
-<div class="container">
-  <p>
-    ログアウトしました
-  </p>
-
-<a href="{% url 'register:login' %}">ログインはこちら</a>
+<div class="container  text-center text">
+  <h4 class="my-3">ログアウトしました</h4>
+<h4><a href="{% url 'register:login' %}">ログインはこちら</a></h4>
 </div>
 {% endblock %}

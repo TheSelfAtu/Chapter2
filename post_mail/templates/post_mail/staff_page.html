@@ -8,17 +8,15 @@
 <div class="container">
   <div class="row">
 
-    <div class="col-md-6">
+    <div class="col-md-6 py-3 px-0">
       <h2>紹介者</h2>
-      <ul>
+      <ul class="list-group">
         {% for user in users %}
-        <li>
-          {{user.department}}部　
-          {{user.division}}課　
+        <li class="list-group-item">
+          {{user.department}}部 {{user.division}}課　
           {{user.first_name}}
           {{user.last_name}}　
           {{user.email}}
-
         </li>
 
         {% endfor %}
@@ -26,12 +24,12 @@
       <a href="{% url 'post_mail:add_guest' %}">+紹介者の追加</a>
     </div>
 
-    <div class="col-md-5">
+    <div class="col-md-5 py-3">
       <div class="offset-md-1">
         <h2>ご紹介</h2>
-        <ul>
+        <ul class="list-group">
           {% for user in recommended %}
-          <li>
+          <li class="list-group-item">
             <a href="{% url 'recommend:add_user' id=user.id %}">
               {{user.company}}　
               {{user.name}}さん
@@ -39,6 +37,7 @@
             <p> 紹介者　{{user.who_recommend.first_name}}{{user.who_recommend.last_name}}</p>
           </li>
           {% endfor %}
+        </ul>
       </div>
     </div>
 
